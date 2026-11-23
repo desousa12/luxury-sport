@@ -1,6 +1,7 @@
 import type { CartItem, OrderType } from "../types/menu";
 
-export const WHATSAPP_PHONE_NUMBER = "584149574838";
+export const WHATSAPP_PHONE_NUMBER =
+  process.env.NEXT_PUBLIC_WHATSAPP_PHONE_NUMBER ?? "584149574838";
 
 export const formatCurrency = (value: number) =>
   new Intl.NumberFormat("en-US", {
@@ -31,9 +32,9 @@ export const createWhatsAppOrderLink = ({
   }
 
   const lines = [
-    `Hola, mi nombre es ${normalizedName} y quiero realizar el siguiente pedido:`,
+    `Hola, soy ${normalizedName} y quiero realizar el siguiente pedido de camisetas:`,
     "",
-    `📦 *Tipo de pedido: ${orderType}*`,
+    `📦 *Entrega: ${orderType === "Delivery" ? "Delivery" : orderType}*`,
     ...(orderType === "Delivery"
       ? [
           `🏠 Dirección: ${
@@ -44,13 +45,7 @@ export const createWhatsAppOrderLink = ({
       : []),
     "",
     ...cart.map((item) => {
-      const sizeText = item.size ? ` · Tamaño: ${item.size}` : "";
-      const modifierText = item.modifiers.length > 0 ? ` (${item.modifiers.join(", ")})` : "";
-      const flavorText = item.pizzaFlavors?.length
-        ? `\n   🍕 Sabores: ${item.pizzaFlavors.join("; ")}`
-        : "";
-      const noteText = item.notes ? `\n   📝 Nota: ${item.notes}` : "";
-      return `• ${item.name}${sizeText} x${item.quantity}${modifierText} - ${formatCurrency(item.price * item.quantity)}${flavorText}${noteText}`;
+      return `• ${item.quantity}x ${item.name} (${item.team}) - Talla ${item.size} - ${formatCurrency(item.price * item.quantity)}`;
     }),
     "",
     `💳 Total: ${formatCurrency(total)}`,

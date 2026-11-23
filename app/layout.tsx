@@ -2,10 +2,14 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "PISA 62 · Pizza, Helados y Café",
-  description: "Descubre el menú de PISA 62 y arma tu pedido por WhatsApp.",
+  title: "Luxury Sport · Camisetas de fútbol",
+  description: "Explora camisetas de fútbol y arma tu pedido por WhatsApp.",
   icons: {
-    icon: "/favicon_io/favicon.ico",
+    icon: [
+      { url: "/favicon_io/favicon.ico", sizes: "any" },
+      { url: "/favicon_io/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon_io/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
     apple: "/favicon_io/apple-touch-icon.png",
   },
   manifest: "/favicon_io/site.webmanifest",

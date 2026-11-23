@@ -28,18 +28,13 @@ export function SplashScreen() {
   return (
     <section
       className={`welcome-cover${isFading ? " welcome-cover--fading" : ""}`}
-      aria-label="Bienvenido a PISA 62"
+      aria-label="Bienvenido a Luxury Sport"
     >
-      <img
-        className="welcome-cover__image"
-        src="/images/menu.jpg"
-        alt="Logo y banner oficial de PISA 62"
-      />
       <div className="welcome-cover__shade" />
       <div className="welcome-cover__content">
-        <span className="welcome-cover__eyebrow">PIZZA · HELADOS · CAFÉ</span>
-        <h2>PISA 62</h2>
-        <p>Un buen momento empieza con algo rico.</p>
+        <span className="welcome-cover__eyebrow">MODA DEPORTIVA &amp; URBANA</span>
+        <h2>Luxury Sport</h2>
+        <p>Estilo que se mueve contigo.</p>
         <button
           type="button"
           className="welcome-cover__hint"
@@ -48,7 +43,7 @@ export function SplashScreen() {
           }
         >
           <span className="welcome-cover__arrow" aria-hidden="true">↓</span>
-          Desliza hacia abajo para ver el menú
+          Desliza hacia abajo para ver las camisetas
         </button>
       </div>
     </section>

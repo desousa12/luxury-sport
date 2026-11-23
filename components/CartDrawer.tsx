@@ -20,6 +20,7 @@ type CartDrawerProps = {
   onRemove: (itemId: string) => void;
   onEdit: (item: CartItem) => void;
   onSubmitOrder: (order: OrderDetails) => void;
+  sheetStatus: "idle" | "sending" | "sent" | "error" | "not-configured";
 };
 
 export function CartDrawer({
@@ -31,6 +32,7 @@ export function CartDrawer({
   onRemove,
   onEdit,
   onSubmitOrder,
+  sheetStatus,
 }: CartDrawerProps) {
   const [isOrderDetailsOpen, setIsOrderDetailsOpen] = useState(false);
   const [customerName, setCustomerName] = useState("");
@@ -53,7 +55,7 @@ export function CartDrawer({
   };
 
   useEffect(() => {
-    const savedName = window.sessionStorage.getItem("pisa62-customer-name");
+    const savedName = window.sessionStorage.getItem("luxury-sport-customer-name");
     if (savedName) setCustomerName(savedName);
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -106,7 +108,7 @@ export function CartDrawer({
       return;
     }
 
-    window.sessionStorage.setItem("pisa62-customer-name", normalizedName);
+    window.sessionStorage.setItem("luxury-sport-customer-name", normalizedName);
     setCustomerName(normalizedName);
     onSubmitOrder({
       customerName: normalizedName,
@@ -156,19 +158,12 @@ export function CartDrawer({
               <div key={`${item.id}-${item.productId}`} className="rounded-2xl border border-slate-200 p-3">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <img src={item.image} alt={item.name} className="h-14 w-14 rounded-xl object-cover" />
+                    <img src={item.image} alt={item.name} className="h-14 w-14 rounded-xl bg-slate-100 object-contain" />
                     <div>
                       <p className="text-sm font-semibold text-slate-800">{item.name}</p>
                       <p className="text-xs text-slate-500">
-                        {[
-                          item.size,
-                          ...(item.pizzaFlavors ?? []),
-                          ...item.modifiers,
-                        ].filter(Boolean).join(" · ") || "Sin modificadores"}
+                        {item.size ? `Talla ${item.size}` : "Sin talla seleccionada"}
                       </p>
-                      {item.notes ? (
-                        <p className="mt-1 text-xs text-slate-500">Nota: {item.notes}</p>
-                      ) : null}
                     </div>
                   </div>
                   <div className="cart-item__actions">
@@ -255,6 +250,21 @@ export function CartDrawer({
             className="h-5 w-5 object-contain"
           />
         </button>
+        {sheetStatus === "sent" ? (
+          <p className="mt-2 text-center text-xs font-medium text-emerald-700" role="status">
+            Pedido registrado en Google Sheets.
+          </p>
+        ) : null}
+        {sheetStatus === "error" ? (
+          <p className="mt-2 text-center text-xs font-medium text-red-700" role="alert">
+            No se pudo registrar en Google Sheets. WhatsApp sigue disponible.
+          </p>
+        ) : null}
+        {sheetStatus === "not-configured" ? (
+          <p className="mt-2 text-center text-xs text-slate-500" role="status">
+            Google Sheets aún no está configurado.
+          </p>
+        ) : null}
       </aside>
 
       {isOrderDetailsOpen ? (
@@ -304,7 +314,7 @@ export function CartDrawer({
             <fieldset className="order-checkout__types">
               <legend className="order-checkout__label">Tipo de pedido</legend>
               <div className="order-checkout__type-options">
-                {(["Delivery", "Pick Up", "Comer aquí"] as const).map((type) => (
+                {(["Delivery", "Retiro", "Envío nacional"] as const).map((type) => (
                   <button
                     key={type}
                     type="button"
@@ -320,6 +330,16 @@ export function CartDrawer({
                 ))}
               </div>
             </fieldset>
+
+            {sheetStatus === "sending" ? (
+              <p className="order-checkout__helper" role="status">Registrando el pedido en Google Sheets...</p>
+            ) : null}
+            {sheetStatus === "sent" ? (
+              <p className="order-checkout__helper" role="status">Pedido registrado en Google Sheets.</p>
+            ) : null}
+            {sheetStatus === "error" ? (
+              <p className="order-checkout__helper" role="alert">No se pudo registrar en Google Sheets. Puedes continuar por WhatsApp.</p>
+            ) : null}
 
             <div
               className="order-checkout__delivery"

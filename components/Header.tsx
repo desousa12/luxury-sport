@@ -43,11 +43,11 @@ export function Header({
 
       <div className="header-brand">
         <img
-          src="/images/logo.jpg"
-          alt="PISA 62 · Pizza, helados y café"
+          src="/images/luxurysport-logo.jpg"
+          alt="Luxury Sport"
           className="header-brand__logo"
         />
-        <h1 className="sr-only">PISA 62</h1>
+        <h1 className="sr-only">Luxury Sport</h1>
       </div>
 
       <button

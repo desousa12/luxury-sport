@@ -1,39 +1,25 @@
-export type ProductModifier = {
-  id: string;
-  name: string;
-  extraPrice?: number;
-};
-
-export type ProductSize = {
-  id: string;
-  label: string;
-  price: number;
-};
-
-export type MenuCategoryId =
-  | "pizza"
-  | "ice-cream"
-  | "drinks"
-  | "promos";
+export type TeamCategoryId =
+  | "barcelona"
+  | "real-madrid"
+  | "bayern-munich"
+  | "espana"
+  | "psg"
+  | "inter-miami"
+  | "chelsea";
 
 export type Product = {
   id: string;
-  name: string;
-  price: number;
-  description: string;
-  image: string;
-  carouselImage?: string;
-  category: MenuCategoryId;
-  modifiers?: ProductModifier[];
-  sizes?: ProductSize[];
-  ingredients?: ProductModifier[];
-  pizzaCount?: number;
-  pizzaSize?: string;
-  pizzaHalfAndHalf?: boolean;
+  nombre: string;
+  equipo: string;
+  categoria: TeamCategoryId;
+  precio: number;
+  imagen: string;
+  tallas: string[];
+  descripcion?: string;
 };
 
-export type MenuCategory = {
-  id: MenuCategoryId;
+export type TeamCategory = {
+  id: TeamCategoryId | "all";
   name: string;
 };
 
@@ -41,28 +27,21 @@ export type CartItem = {
   id: string;
   productId: string;
   name: string;
+  team: string;
   price: number;
   quantity: number;
-  modifiers: string[];
-  selectedModifierIds: string[];
-  pizzaFlavors?: string[];
-  selectedPizzaFlavorIds?: string[];
-  size?: string;
-  notes?: string;
+  size: string;
   image: string;
 };
 
-export type OrderType = "Delivery" | "Pick Up" | "Comer aquí";
+export type OrderType = "Delivery" | "Retiro" | "Envío nacional";
 
 export type ProductPayload = {
   productId: string;
   name: string;
+  team: string;
   price: number;
   image: string;
-  modifiers: string[];
-  selectedModifierIds: string[];
-  pizzaFlavors?: string[];
-  selectedPizzaFlavorIds?: string[];
-  size?: string;
-  notes: string;
+  quantity: number;
+  size: string;
 };
